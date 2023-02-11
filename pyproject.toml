@@ -1,0 +1,10 @@
+[project]
+name = "generics_belissimo"
+version = "1.0.0"
+description = "Generics with runtime generic arg access"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
