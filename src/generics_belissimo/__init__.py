@@ -1,8 +1,6 @@
 import typing
 
-
 __all__ = ["Generic", "GenericMetaclass"]
-
 
 T = typing.TypeVar("T")
 
@@ -26,7 +24,9 @@ class GenericMetaclass(type):
         else:
             base_class = self.__base_class__
 
-        return f"{base_class.__name__}[{', '.join(map(repr, self.__generic_args__))}]"
+        f_generic_args = f"[{', '.join(map(repr, self.__generic_args__))}]" if self.__generic_args__ else ""
+
+        return f"{base_class.__name__}" + f_generic_args
 
 
 class Generic(metaclass=GenericMetaclass):
@@ -35,24 +35,19 @@ class Generic(metaclass=GenericMetaclass):
 
 
 def main():
-    class Variable(Generic):
-        def __init__(self, name: str):
-            self.name = name
+    class MyGeneric(Generic):
+        def __init__(self, a: int):
+            self.a = a
 
-        def hello(self):
-            print(f"Hello {self.name}!")
+        def what_am_i(self):
+            print(self.__base_class__, self.__generic_args__)
 
-    type1 = Variable[int]
-    type2 = Variable[str]
+    my_generic1 = MyGeneric[int](1)
+    my_generic1.what_am_i()
 
-    print(dir(type1))
-
-    print(type1, type2)
-
-    var1 = type1("Bob")
-
-    var1.hello()
+    my_generic2 = MyGeneric["This a generic arg", bool](2)
+    my_generic2.what_am_i()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
